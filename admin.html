@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Business is Business — Admin</title>
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Inter:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Quicksand', sans-serif;
+    color: #251f31;
+    background: #f6f1e0;
+    min-height: 100vh;
+    padding: 40px 20px 80px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+  header { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  header img { width: 110px; }
+  header h1 { font-size: 26px; text-transform: uppercase; letter-spacing: 0.08em; }
+  header p { font-family: 'Inter', sans-serif; color: #49454c; font-size: 14px; }
+  .card {
+    background: #fffcef;
+    border: 1px solid rgba(37,31,49,0.12);
+    border-radius: 28px;
+    padding: 28px;
+    box-shadow: 0 18px 40px -30px rgba(0,0,0,0.25);
+  }
+  .card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+  .card-head h2 { font-size: 18px; text-transform: uppercase; letter-spacing: 0.14em; color: #3b3447; }
+  .count {
+    display: inline-block; margin-left: 10px;
+    background: #725c00; color: #fff;
+    border-radius: 999px; padding: 2px 12px;
+    font-size: 13px; font-weight: 700;
+  }
+  .actions { display: flex; gap: 10px; }
+  button {
+    font-family: 'Quicksand', sans-serif; font-weight: 700;
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em;
+    border: none; border-radius: 999px; padding: 10px 20px; cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
+  button:hover { transform: translateY(-1px); filter: brightness(1.08); }
+  .btn-csv { background: #153f9a; color: #fff; }
+  .btn-clear { background: transparent; color: #a33; border: 1px solid rgba(170,51,51,0.4); }
+  .btn-del { background: transparent; color: #a33; border: none; font-size: 16px; padding: 4px 10px; }
+  table { width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif; font-size: 14px; }
+  th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: #49454c99; padding: 10px 12px; border-bottom: 1px solid rgba(37,31,49,0.12); }
+  td { padding: 12px; border-bottom: 1px solid rgba(37,31,49,0.06); }
+  tr:hover td { background: rgba(37,31,49,0.03); }
+  .empty { font-family: 'Inter', sans-serif; color: #49454c88; font-size: 14px; padding: 18px 6px; }
+  .note { font-family: 'Inter', sans-serif; font-size: 12px; color: #49454c99; line-height: 1.6; }
+  .note strong { color: #725c00; }
+  a.back { font-size: 13px; font-weight: 700; color: #153f9a; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="assets/logo/logo.png" alt="Business is Business" />
+    <div>
+      <h1>Tableau de bord — Inscriptions</h1>
+      <p>Newsletter et tournois collectés sur ce navigateur. <a class="back" href="index.html">← Retour au site</a></p>
+    </div>
+  </header>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Newsletter <span class="count" id="nl-count">0</span></h2>
+      <div class="actions">
+        <button type="button" class="btn-csv" data-csv="bib-newsletter">Exporter CSV</button>
+        <button type="button" class="btn-clear" data-clear="bib-newsletter">Tout effacer</button>
+      </div>
+    </div>
+    <div id="nl-table"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Tournois <span class="count" id="tr-count">0</span></h2>
+      <div class="actions">
+        <button type="button" class="btn-csv" data-csv="bib-tournois">Exporter CSV</button>
+        <button type="button" class="btn-clear" data-clear="bib-tournois">Tout effacer</button>
+      </div>
+    </div>
+    <div id="tr-table"></div>
+  </section>
+
+  <p class="note">
+    <strong>Comment ça marche :</strong> les inscriptions sont enregistrées dans le navigateur du visiteur (localStorage) puis visibles ici sur le même navigateur.
+    Pour recevoir les inscriptions de <em>tous</em> les visiteurs par email, branchez les formulaires sur un service gratuit comme
+    <strong>Formspree</strong> ou <strong>Web3Forms</strong> (une seule ligne à changer — demandez-moi quand vous voulez).
+    Cette page n'est pas liée dans le menu : gardez l'adresse <em>admin.html</em> pour vous.
+  </p>
+</div>
+
+<script>
+  function read(key) {
+    try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch (e) { return []; }
+  }
+  function write(key, list) {
+    try { localStorage.setItem(key, JSON.stringify(list)); } catch (e) {}
+  }
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    return d.toLocaleDateString('fr-FR') + ' ' + d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+  }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  }
+
+  const TABLES = [
+    { key: 'bib-newsletter', mount: 'nl-table', count: 'nl-count', cols: [['email', 'Email'], ['lang', 'Langue'], ['date', 'Date']] },
+    { key: 'bib-tournois', mount: 'tr-table', count: 'tr-count', cols: [['nom', 'Nom'], ['email', 'Email'], ['ville', 'Ville'], ['lang', 'Langue'], ['date', 'Date']] },
+  ];
+
+  function render() {
+    TABLES.forEach((cfg) => {
+      const list = read(cfg.key);
+      document.getElementById(cfg.count).textContent = list.length;
+      const mount = document.getElementById(cfg.mount);
+      if (!list.length) {
+        mount.innerHTML = '<p class="empty">Aucune inscription pour le moment.</p>';
+        return;
+      }
+      const head = cfg.cols.map((c) => '<th>' + c[1] + '</th>').join('') + '<th></th>';
+      const rows = list.map((entry, i) => {
+        const tds = cfg.cols.map((c) => {
+          const v = c[0] === 'date' ? fmtDate(entry.date) : esc(entry[c[0]]);
+          return '<td>' + (v || '—') + '</td>';
+        }).join('');
+        return '<tr>' + tds + '<td><button type="button" class="btn-del" data-del="' + cfg.key + '" data-i="' + i + '" title="Supprimer">×</button></td></tr>';
+      }).join('');
+      mount.innerHTML = '<table><thead><tr>' + head + '</tr></thead><tbody>' + rows + '</tbody></table>';
+    });
+  }
+
+  function toCSV(key) {
+    const cfg = TABLES.find((t) => t.key === key);
+    const list = read(key);
+    const header = cfg.cols.map((c) => c[1]).join(';');
+    const lines = list.map((entry) =>
+      cfg.cols.map((c) => '"' + String(c[0] === 'date' ? fmtDate(entry.date) : (entry[c[0]] || '')).replace(/"/g, '""') + '"').join(';')
+    );
+    return header + '\n' + lines.join('\n');
+  }
+
+  document.addEventListener('click', (e) => {
+    const csvBtn = e.target.closest('[data-csv]');
+    const clearBtn = e.target.closest('[data-clear]');
+    const delBtn = e.target.closest('[data-del]');
+    if (csvBtn) {
+      const key = csvBtn.getAttribute('data-csv');
+      const blob = new Blob(['\ufeff' + toCSV(key)], { type: 'text/csv;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = key + '.csv';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+    if (clearBtn) {
+      const key = clearBtn.getAttribute('data-clear');
+      if (confirm('Effacer toutes les inscriptions « ' + key + ' » ?')) {
+        write(key, []);
+        render();
+      }
+    }
+    if (delBtn) {
+      const key = delBtn.getAttribute('data-del');
+      const i = parseInt(delBtn.getAttribute('data-i'), 10);
+      const list = read(key);
+      list.splice(i, 1);
+      write(key, list);
+      render();
+    }
+  });
+
+  render();
+  window.addEventListener('storage', render);
+</script>
+</body>
+</html>

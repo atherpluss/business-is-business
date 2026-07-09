@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Business is Business — F.A.Q</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Inter:ital,wght@0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@400;700&family=Qahiri&family=Archivo+Black&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          cream: { DEFAULT: '#f6f1e0', light: '#fffcef', header: '#ece6d4', card: '#f7f5ec' },
+          ink: { DEFAULT: '#251f31', soft: '#49454c', softer: '#3b3447', dark: '#393939' },
+          gold: { DEFAULT: '#725c00', muted: '#a8944f' },
+          moss: '#446900',
+          brand: { blue: '#153f9a', blueDark: '#1d1f80', skyFrom: '#6e90ff', skyTo: '#1d3584' },
+          lime: { DEFAULT: '#b2f74c', border: '#486f00' },
+          line: { DEFAULT: '#cac4cc', soft: '#e7e2d2', warm: '#d5cfbc' },
+        },
+        fontFamily: {
+          display: ['Quicksand', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+          mono: ['"Space Grotesk"', 'sans-serif'],
+          script: ['Qahiri', 'sans-serif'],
+          heavy: ['"Archivo Black"', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-white">
+
+<div id="sidebar-root"></div>
+
+<div class="lg:ml-[228px] flex flex-col min-h-screen">
+  <div id="header-root"></div>
+
+  <main class="flex-1">
+
+    <section class="reveal flex flex-col gap-8 px-4 md:px-16 py-14 max-w-6xl mx-auto">
+      <div class="flex items-center justify-center gap-4 w-full">
+        <span class="hidden sm:block flex-1 h-px bg-line max-w-[220px]"></span>
+        <h2 data-i18n="faq.title" class="title-reveal font-display font-bold text-ink-softer text-2xl md:text-3xl tracking-[0.2em] uppercase text-center whitespace-nowrap"></h2>
+        <span class="hidden sm:block flex-1 h-px bg-line max-w-[220px]"></span>
+      </div>
+      <div class="relative rounded-[40px] border-8 border-white shadow-xl overflow-hidden aspect-[21/9] img-zoom-wrap">
+        <img src="assets/img/Community-Banner.png" alt="FAQ" class="img-zoom w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+      </div>
+    </section>
+
+    <!-- Filtres catégories -->
+    <section class="reveal px-6 py-4 max-w-4xl mx-auto w-full">
+      <div class="faq-search relative max-w-xl mx-auto w-full mb-6">
+        <svg class="faq-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+        <input id="faq-search" type="search" data-i18n-placeholder="faq.search.placeholder" class="w-full h-14 rounded-full bg-cream-card border border-[#898989]/30 pl-14 pr-6 font-display font-medium text-ink placeholder:text-ink-soft/40 focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold/60 transition" />
+      </div>
+      <div id="faq-chips" class="flex flex-wrap gap-3 justify-center"></div>
+    </section>
+
+    <!-- Accordéon -->
+    <section class="reveal flex flex-col gap-3 px-6 py-8 max-w-4xl mx-auto w-full">
+      <div id="faq-list" class="flex flex-col gap-3"></div>
+    </section>
+
+    <div id="community-root"></div>
+    <div id="newsletter-root"></div>
+    <div id="marquee-root"></div>
+    <div id="footer-root"></div>
+  </main>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/enhancements.js"></script>
+<script>
+  let activeCat = '__all';
+  let searchQuery = '';
+
+  function normStr(s) {
+    return String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+  function highlightText(text) {
+    const q = searchQuery.trim();
+    if (!q) return text;
+    try {
+      const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+      return text.replace(re, '<mark>$1</mark>');
+    } catch (e) { return text; }
+  }
+
+  function faqData() { return FAQ_DATA[getLang()] || FAQ_DATA.fr; }
+
+  function buildChips() {
+    const wrap = document.getElementById('faq-chips');
+    if (!wrap) return;
+    const cats = ['__all', ...Array.from(new Set(faqData().map((f) => f.cat)))];
+    wrap.innerHTML = cats
+      .map((c) => {
+        const label = c === '__all' ? t('faq.all') : c;
+        const active = c === activeCat ? 'is-active' : '';
+        return `<button type="button" class="faq-chip ${active} flex items-center gap-2 bg-cream border border-[#828282] rounded-full px-5 py-2.5" data-cat="${c}">
+          <span class="font-display font-bold text-xs text-[#252525] tracking-wide uppercase">${label}</span>
+        </button>`;
+      })
+      .join('');
+    wrap.querySelectorAll('.faq-chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        activeCat = chip.getAttribute('data-cat');
+        buildChips();
+        buildList();
+      });
+    });
+  }
+
+  function buildList() {
+    const list = document.getElementById('faq-list');
+    if (!list) return;
+    const q = normStr(searchQuery.trim());
+    const items = faqData().filter((f) =>
+      (activeCat === '__all' || f.cat === activeCat) &&
+      (!q || normStr(f.q + ' ' + f.a).includes(q))
+    );
+    list.innerHTML = '';
+    items.forEach((item) => {
+      const el = document.createElement('div');
+      el.className = 'faq-item bg-cream-card border border-[#898989]/10 rounded-[20px] overflow-hidden';
+      el.innerHTML = `
+        <button type="button" class="faq-q w-full text-left px-8 py-6 flex flex-col gap-2">
+          <span class="font-display font-bold text-[9px] text-[#474747]/40 tracking-[0.2em] uppercase">${item.cat}</span>
+          <div class="flex items-center justify-between gap-4">
+            <h3 class="font-display font-bold text-[#393939] text-lg md:text-xl tracking-tight">${highlightText(item.q)}</h3>
+            <span class="faq-icon shrink-0 text-2xl text-[#393939]">+</span>
+          </div>
+        </button>
+        <div class="faq-answer px-8">
+          <p class="text-[rgba(74,74,74,0.7)] text-sm pb-6 leading-relaxed">${highlightText(item.a)}</p>
+        </div>`;
+      const btn = el.querySelector('.faq-q');
+      const ans = el.querySelector('.faq-answer');
+      const icon = el.querySelector('.faq-icon');
+      if (searchQuery.trim()) {
+        ans.classList.add('is-open');
+        icon.classList.add('is-open');
+      }
+      btn.addEventListener('click', () => {
+        ans.classList.toggle('is-open');
+        icon.classList.toggle('is-open');
+      });
+      list.appendChild(el);
+    });
+    if (!items.length) {
+      list.innerHTML = '<p class="text-center text-ink-soft/60 font-display font-medium py-10">' + t('faq.noresult') + '</p>';
+    }
+  }
+
+  function rebuildFaq() { buildChips(); buildList(); }
+  rebuildFaq();
+  const searchInput = document.getElementById('faq-search');
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      searchQuery = searchInput.value;
+      buildList();
+    });
+  }
+  document.addEventListener('langchange', () => {
+    activeCat = '__all';
+    searchQuery = '';
+    if (searchInput) searchInput.value = '';
+    rebuildFaq();
+  });
+</script>
+</body>
+</html>

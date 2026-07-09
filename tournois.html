@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Business is Business — Tournois</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Inter:ital,wght@0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@400;700&family=Qahiri&family=Archivo+Black&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          cream: { DEFAULT: '#f6f1e0', light: '#fffcef', header: '#ece6d4', card: '#f7f5ec' },
+          ink: { DEFAULT: '#251f31', soft: '#49454c', softer: '#3b3447', dark: '#393939' },
+          gold: { DEFAULT: '#725c00', muted: '#a8944f' },
+          moss: '#446900',
+          brand: { blue: '#153f9a', blueDark: '#1d1f80', skyFrom: '#6e90ff', skyTo: '#1d3584' },
+          lime: { DEFAULT: '#b2f74c', border: '#486f00' },
+          line: { DEFAULT: '#cac4cc', soft: '#e7e2d2', warm: '#d5cfbc' },
+        },
+        fontFamily: {
+          display: ['Quicksand', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+          mono: ['"Space Grotesk"', 'sans-serif'],
+          script: ['Qahiri', 'sans-serif'],
+          heavy: ['"Archivo Black"', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-white">
+
+<div id="sidebar-root"></div>
+
+<div class="lg:ml-[228px] flex flex-col min-h-screen">
+  <div id="header-root"></div>
+
+  <main class="flex-1">
+
+    <!-- Hero tournois -->
+    <section class="px-6 md:px-16 py-20 flex flex-col md:flex-row items-center gap-16 max-w-6xl mx-auto">
+      <div class="reveal-left flex-1 flex flex-col gap-6">
+        <span data-i18n="tournois.coming" class="coming-soon font-display font-bold text-sm tracking-[0.3em] uppercase"></span>
+        <h1 class="font-display font-bold text-ink-soft text-5xl md:text-7xl tracking-tight leading-[0.95]">
+          <span data-i18n="tournois.title1" class="title-reveal"></span><br />
+          <span data-i18n="tournois.title2" class="title-reveal"></span><br />
+          <span data-i18n="tournois.title3" class="title-reveal"></span>
+        </h1>
+        <p data-i18n="tournois.text" class="text-[#0a0a0a]/60 max-w-md"></p>
+        <div id="countdown" class="flex gap-4 pt-4">
+          <div class="flex flex-col items-center gap-3">
+            <div class="countdown-pulse w-[100px] h-[100px] md:w-[110px] md:h-[110px] rounded-[24px] border-2 border-[#cdcdcd] bg-[#424242]/[0.03] flex items-center justify-center">
+              <span id="cd-days" class="font-display font-bold text-ink-soft text-3xl md:text-4xl">--</span>
+            </div>
+            <span data-i18n="tournois.jours" class="text-[13px] md:text-[15px] tracking-[0.2em] uppercase text-[#282828]/40"></span>
+          </div>
+          <div class="flex flex-col items-center gap-3">
+            <div class="countdown-pulse w-[100px] h-[100px] md:w-[110px] md:h-[110px] rounded-[24px] border-2 border-[#cdcdcd] bg-[#424242]/[0.03] flex items-center justify-center">
+              <span id="cd-hours" class="font-display font-bold text-ink-soft text-3xl md:text-4xl">--</span>
+            </div>
+            <span data-i18n="tournois.heures" class="text-[13px] md:text-[15px] tracking-[0.2em] uppercase text-[#282828]/40"></span>
+          </div>
+          <div class="flex flex-col items-center gap-3">
+            <div class="countdown-pulse w-[100px] h-[100px] md:w-[110px] md:h-[110px] rounded-[24px] border-2 border-[#cdcdcd] bg-[#424242]/[0.03] flex items-center justify-center">
+              <span id="cd-minutes" class="font-display font-bold text-ink-soft text-3xl md:text-4xl">--</span>
+            </div>
+            <span data-i18n="tournois.minutes" class="text-[13px] md:text-[15px] tracking-[0.2em] uppercase text-[#282828]/40"></span>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right flex-1 rounded-[40px] overflow-hidden shadow-xl img-zoom-wrap">
+        <img src="assets/img/tournoi-victoire.jpg" alt="Illustration tournoi" class="img-zoom w-full h-full object-cover" />
+      </div>
+    </section>
+
+    <!-- Inscription -->
+    <section class="reveal px-6 md:px-16 py-10 max-w-6xl mx-auto w-full">
+      <div class="relative rounded-[40px] border border-gray-200 shadow-xl overflow-hidden">
+        <img src="assets/img/CTA-Section.png" alt="" class="absolute inset-0 w-full h-full object-cover opacity-25 pointer-events-none" />
+        <div class="relative grid md:grid-cols-2 gap-0">
+          <div class="flex flex-col gap-5 p-10 md:p-16">
+            <p data-i18n="tournois.inscription" class="text-[#444748]/60 tracking-wide uppercase text-sm"></p>
+            <h2 class="font-display font-semibold text-ink text-5xl md:text-6xl leading-[0.95]">
+              <span data-i18n="tournois.place1"></span><br /><span data-i18n="tournois.place2"></span><br /><span data-i18n="tournois.place3"></span>
+            </h2>
+            <p data-i18n="tournois.place.text" class="text-[#444748] text-lg pt-2"></p>
+          </div>
+          <form id="tournament-form" action="https://formspree.io/f/xrewjpep" method="POST" class="flex flex-col gap-6 bg-[#f5f3ee]/95 p-10 md:p-16">
+            <div class="flex flex-col gap-2">
+              <label for="t-nom" data-i18n="tournois.nom" class="text-[12px] tracking-wide uppercase text-[#444748]/60"></label>
+              <input id="t-nom" name="nom" type="text" required class="bg-white border border-[#e4e2dd] rounded-full h-14 px-6 focus:outline-none focus:ring-2 focus:ring-brand-blue/40 transition" />
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="t-email" data-i18n="tournois.email" class="text-[12px] tracking-wide uppercase text-[#444748]/60"></label>
+              <input id="t-email" name="email" type="email" required class="bg-white border border-[#e4e2dd] rounded-full h-14 px-6 focus:outline-none focus:ring-2 focus:ring-brand-blue/40 transition" />
+            </div>
+            <div class="flex flex-col gap-2">
+              <label for="t-ville" data-i18n="tournois.ville" class="text-[12px] tracking-wide uppercase text-[#444748]/60"></label>
+              <input id="t-ville" name="ville" type="text" required class="bg-white border border-[#e4e2dd] rounded-full h-14 px-6 focus:outline-none focus:ring-2 focus:ring-brand-blue/40 transition" />
+            </div>
+            <button type="submit" id="t-submit" class="btn-primary self-start px-12">
+              <span data-i18n="tournois.btn"></span>
+            </button>
+            <p id="t-success" data-i18n="tournois.success" class="hidden text-moss font-display font-bold text-sm"></p>
+            <p id="t-error" class="hidden text-red-600 font-display font-bold text-sm">Une erreur est survenue, merci de réessayer.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <div id="community-root"></div>
+    <div id="newsletter-root"></div>
+    <div id="marquee-root"></div>
+    <div id="footer-root"></div>
+  </main>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/enhancements.js"></script>
+<script>
+  // Compte à rebours : cible fixe 45 jours après aujourd'hui (persistée)
+  (function () {
+    let target;
+    try {
+      target = parseInt(localStorage.getItem('bib-tournoi-target') || '0', 10);
+      if (!target || target < Date.now()) {
+        target = Date.now() + 45 * 24 * 60 * 60 * 1000;
+        localStorage.setItem('bib-tournoi-target', String(target));
+      }
+    } catch (e) {
+      target = Date.now() + 45 * 24 * 60 * 60 * 1000;
+    }
+    const d = document.getElementById('cd-days');
+    const h = document.getElementById('cd-hours');
+    const m = document.getElementById('cd-minutes');
+    function tick() {
+      if (Date.now() >= target) {
+        // Le compte à rebours boucle : dès qu'il atteint 00, il repart à zéro pour un nouveau cycle
+        target = Date.now() + 45 * 24 * 60 * 60 * 1000;
+        try { localStorage.setItem('bib-tournoi-target', String(target)); } catch (e) {}
+      }
+      const rem = Math.max(target - Date.now(), 0);
+      if (d) d.textContent = String(Math.floor(rem / 86400000)).padStart(2, '0');
+      if (h) h.textContent = String(Math.floor((rem / 3600000) % 24)).padStart(2, '0');
+      if (m) m.textContent = String(Math.floor((rem / 60000) % 60)).padStart(2, '0');
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('tournament-form');
+    const ok = document.getElementById('t-success');
+    const err = document.getElementById('t-error');
+    const submitBtn = document.getElementById('t-submit');
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (err) err.classList.add('hidden');
+        if (submitBtn) submitBtn.disabled = true;
+
+        const data = {
+          nom: document.getElementById('t-nom').value.trim(),
+          email: document.getElementById('t-email').value.trim(),
+          ville: document.getElementById('t-ville').value.trim(),
+        };
+
+        if (window.BibStore) {
+          window.BibStore.add('bib-tournois', data);
+        }
+
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        })
+          .then((response) => {
+            if (response.ok) {
+              if (ok) ok.classList.remove('hidden');
+              form.reset();
+            } else {
+              if (err) err.classList.remove('hidden');
+            }
+          })
+          .catch(() => {
+            if (err) err.classList.remove('hidden');
+          })
+          .finally(() => {
+            if (submitBtn) submitBtn.disabled = false;
+          });
+      });
+    }
+  });
+</script>
+</body>
+</html>

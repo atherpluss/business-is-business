@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Business is Business — Accueil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Inter:ital,wght@0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@400;700&family=Qahiri&family=Archivo+Black&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          cream: { DEFAULT: '#f6f1e0', light: '#fffcef', header: '#ece6d4', card: '#f7f5ec' },
+          ink: { DEFAULT: '#251f31', soft: '#49454c', softer: '#3b3447', dark: '#393939' },
+          gold: { DEFAULT: '#725c00', muted: '#a8944f' },
+          moss: '#446900',
+          brand: { blue: '#153f9a', blueDark: '#1d1f80', skyFrom: '#6e90ff', skyTo: '#1d3584' },
+          lime: { DEFAULT: '#b2f74c', border: '#486f00' },
+          line: { DEFAULT: '#cac4cc', soft: '#e7e2d2', warm: '#d5cfbc' },
+        },
+        fontFamily: {
+          display: ['Quicksand', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+          mono: ['"Space Grotesk"', 'sans-serif'],
+          script: ['Qahiri', 'sans-serif'],
+          heavy: ['"Archivo Black"', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-white">
+
+<!-- Écran d'ouverture -->
+<div id="bib-splash" aria-hidden="true">
+  <img src="assets/logo/logo.png" alt="" class="splash-logo" />
+  <div class="splash-bar"><span></span></div>
+</div>
+<script>
+(function () {
+  var s = document.getElementById('bib-splash');
+  if (!s) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var seen = false;
+  try { seen = !!sessionStorage.getItem('bib-splash-seen'); } catch (e) {}
+  if (seen || reduce) { s.parentNode.removeChild(s); return; }
+  document.documentElement.classList.add('splash-lock');
+  var finished = false;
+  function done() {
+    if (finished) return;
+    finished = true;
+    s.classList.add('is-done');
+    try { sessionStorage.setItem('bib-splash-seen', '1'); } catch (e) {}
+    setTimeout(function () {
+      if (s.parentNode) s.parentNode.removeChild(s);
+      document.documentElement.classList.remove('splash-lock');
+    }, 1000);
+  }
+  var minDelay = new Promise(function (r) { setTimeout(r, 2100); });
+  var loaded = new Promise(function (r) {
+    if (document.readyState === 'complete') r();
+    else window.addEventListener('load', r);
+  });
+  Promise.all([minDelay, loaded]).then(done);
+  setTimeout(done, 6000);
+})();
+</script>
+
+<div id="sidebar-root"></div>
+
+<div class="lg:ml-[228px] flex flex-col min-h-screen">
+  <div id="header-root"></div>
+
+  <main class="flex-1">
+
+    <!-- Hero avec vidéo -->
+    <section class="hero-video-wrap h-[520px] md:h-[640px] flex flex-col items-center justify-center text-center gap-6 px-6">
+      <video autoplay muted loop playsinline preload="auto" poster="assets/hero/hero-poster.png" src="assets/hero/videohero.mp4">
+        <source src="assets/hero/videohero.mp4" type="video/mp4" />
+      </video>
+      <div class="hero-overlay"></div>
+      <img src="assets/logo/logo.png" alt="Business is Business" class="hero-logo relative w-[240px] md:w-[340px] h-auto object-contain drop-shadow-2xl" />
+      <h1 data-i18n="hero.tagline" class="hero-tagline relative font-display font-bold text-white text-2xl md:text-4xl tracking-tight uppercase max-w-3xl drop-shadow-lg"></h1>
+      <div class="hero-scroll-cue" aria-hidden="true"><span></span></div>
+    </section>
+
+    <!-- Concept -->
+    <section class="reveal flex flex-col items-center gap-7 px-6 py-16 max-w-3xl mx-auto text-center">
+      <div class="flex items-center justify-center gap-4 w-full">
+        <span class="hidden sm:block flex-1 h-px bg-line max-w-[220px]"></span>
+        <h2 data-i18n="concept.title" class="title-reveal font-display font-bold text-ink-softer text-xl sm:text-2xl md:text-3xl tracking-[0.12em] sm:tracking-[0.2em] uppercase sm:whitespace-nowrap"></h2>
+        <span class="hidden sm:block flex-1 h-px bg-line max-w-[220px]"></span>
+      </div>
+      <h3 data-i18n="concept.sub" class="font-display font-medium text-gold text-xl uppercase tracking-wide"></h3>
+      <p data-i18n="concept.text" class="text-ink-soft text-lg"></p>
+      <div class="flex flex-wrap justify-center gap-6 pt-2">
+        <img src="assets/icons/age.png" alt="Age" class="game-icon w-24 h-24 object-contain" />
+        <img src="assets/icons/duree.png" alt="Durée" class="game-icon w-24 h-24 object-contain" />
+        <img src="assets/icons/joueurs.png" alt="Joueurs" class="game-icon w-24 h-24 object-contain" />
+      </div>
+    </section>
+
+    <!-- Pions -->
+    <section class="reveal py-10 overflow-hidden">
+      <div id="pieces-scroll" class="stagger mx-auto w-full overflow-hidden">
+        <div class="pieces-scroll-wrap">
+          <div class="pieces-track flex gap-3 items-stretch">
+          <article class="piece-card flex flex-col items-center gap-2 bg-cream-card rounded-[36px] px-5 py-4 !w-[160px]">
+            <div class="piece-image w-full h-[140px] overflow-hidden rounded-[28px]"><img src="assets/pieces/Pion-Rouge.png" alt="Pion Rouge" class="w-full h-full object-cover" /></div>
+            <span class="piece-label text-[9px] tracking-[0.4em] uppercase text-ink-soft">PION DU JEU</span>
+            <p class="piece-name font-display font-bold text-ink">Pion Rouge</p>
+          </article>
+          <article class="piece-card flex flex-col items-center gap-2 bg-cream-card rounded-[36px] px-5 py-4 !w-[160px]">
+            <div class="piece-image w-full h-[140px] overflow-hidden rounded-[28px]"><img src="assets/pieces/Pion-Or.png" alt="Pion Or" class="w-full h-full object-cover" /></div>
+            <span class="piece-label text-[9px] tracking-[0.4em] uppercase text-ink-soft">PION DU JEU</span>
+            <p class="piece-name font-display font-bold text-ink">Pion Or</p>
+          </article>
+          <article class="piece-card flex flex-col items-center gap-2 bg-cream-card rounded-[36px] px-5 py-4 !w-[160px]">
+            <div class="piece-image w-full h-[140px] overflow-hidden rounded-[28px]"><img src="assets/pieces/Pion-Bleu.png" alt="Pion Bleu" class="w-full h-full object-cover" /></div>
+            <span class="piece-label text-[9px] tracking-[0.4em] uppercase text-ink-soft">PION DU JEU</span>
+            <p class="piece-name font-display font-bold text-ink">Pion Bleu</p>
+          </article>
+          <article class="piece-card flex flex-col items-center gap-2 bg-cream-card rounded-[36px] px-5 py-4 !w-[160px]">
+            <div class="piece-image w-full h-[140px] overflow-hidden rounded-[28px]"><img src="assets/pieces/Pion-Vert.png" alt="Pion Vert" class="w-full h-full object-cover" /></div>
+            <span class="piece-label text-[9px] tracking-[0.4em] uppercase text-ink-soft">PION DU JEU</span>
+            <p class="piece-name font-display font-bold text-ink">Pion Vert</p>
+          </article>
+          <article class="piece-card flex flex-col items-center gap-2 bg-cream-card rounded-[36px] px-5 py-4 !w-[160px]">
+            <div class="piece-image w-full h-[140px] overflow-hidden rounded-[28px]"><img src="assets/pieces/De.png" alt="Dé Stratégique" class="w-full h-full object-cover" /></div>
+            <span class="piece-label text-[9px] tracking-[0.4em] uppercase text-ink-soft">ACCESSOIRE</span>
+            <p class="piece-name font-display font-bold text-ink">Dé Stratégique</p>
+          </article>
+          <article class="piece-card flex flex-col items-center gap-2 bg-cream-card rounded-[36px] px-5 py-4 !w-[160px]">
+            <div class="piece-image w-full h-[140px] overflow-hidden rounded-[28px]"><img src="assets/pieces/gangster.png" alt="Pion Gangster" class="w-full h-full object-cover" /></div>
+            <span class="piece-label text-[9px] tracking-[0.4em] uppercase text-ink-soft">ACCESSOIRE</span>
+            <p class="piece-name font-display font-bold text-ink">Gangster</p>
+          </article>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Plateau -->
+    <section class="px-6 py-16 max-w-6xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-12 items-stretch">
+        <div class="reveal-left flex flex-col gap-6">
+          <h2 class="font-display font-bold text-ink text-4xl md:text-5xl leading-tight tracking-tight">
+            <span data-i18n="plateau.title1" class="title-reveal"></span><br /><span data-i18n="plateau.title2" class="title-reveal"></span>
+          </h2>
+          <p data-i18n="plateau.text" class="text-ink-soft/70"></p>
+          <div class="flex flex-col gap-4 pt-2">
+            <div class="stat-pill flex items-center justify-between bg-white border border-ink rounded-full pl-10 pr-6 py-5 card-lift">
+              <div>
+                <p data-i18n="plateau.stat1.label" class="text-[10px] tracking-widest uppercase text-ink"></p>
+                <p data-i18n="plateau.stat1.value" class="font-display font-bold text-xl text-ink"></p>
+              </div>
+            </div>
+            <div class="stat-pill flex items-center justify-between bg-white border border-ink rounded-full pl-10 pr-6 py-5 card-lift">
+              <div>
+                <p data-i18n="plateau.stat2.label" class="text-[10px] tracking-widest uppercase text-ink"></p>
+                <p data-i18n="plateau.stat2.value" class="font-display font-bold text-xl text-ink"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="plateau-preview-trigger" class="reveal-right rounded-[32px] border border-ink-soft overflow-hidden img-zoom-wrap shadow-lg lg:cursor-pointer" role="button" aria-label="Voir le plateau" tabindex="0">
+          <img src="assets/img/Plateau.png" alt="Plateau de jeu" class="img-zoom w-full h-full object-cover" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Chiffres clés (compteurs animés) -->
+    <section class="reveal flex flex-col items-center gap-10 px-6 py-16 max-w-6xl mx-auto">
+      <div class="flex items-center justify-center gap-4 w-full">
+        <span class="hidden sm:block flex-1 h-px bg-line max-w-[220px]"></span>
+        <h2 data-i18n="chiffres.title" class="title-reveal font-display font-bold text-ink-softer text-xl sm:text-2xl md:text-3xl tracking-[0.12em] sm:tracking-[0.2em] uppercase text-center sm:whitespace-nowrap"></h2>
+        <span class="hidden sm:block flex-1 h-px bg-line max-w-[220px]"></span>
+      </div>
+      <div class="stagger grid grid-cols-2 md:grid-cols-4 gap-6 w-full">
+        <div class="stat-card">
+          <span class="stat-value" data-counter="1000000" data-counter-suffix=""></span>
+          <p data-i18n="chiffres.1.label" class="stat-label"></p>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" data-counter="25" data-counter-suffix=""></span>
+          <p data-i18n="chiffres.2.label" class="stat-label"></p>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" data-counter="16" data-counter-suffix=""></span>
+          <p data-i18n="chiffres.3.label" class="stat-label"></p>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" data-counter="6" data-counter-suffix=""></span>
+          <p data-i18n="chiffres.4.label" class="stat-label"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Maîtrisez les règles (carousel) -->
+    <section class="reveal flex flex-col items-center gap-8 px-6 py-16 max-w-6xl mx-auto">
+      <div class="flex items-center justify-center gap-4 w-full">
+        <span class="hidden sm:block flex-1 h-px bg-line max-w-[220px]"></span>
+        <h2 data-i18n="maitrise.title" class="title-reveal font-display font-bold text-ink-softer text-xl sm:text-2xl md:text-3xl tracking-[0.12em] sm:tracking-[0.2em] uppercase text-center sm:whitespace-nowrap"></h2>
+        <span class="hidden sm:block flex-1 h-px bg-line max-w-[220px]"></span>
+      </div>
+      <div data-carousel class="w-full bg-white border border-line/20 shadow-sm rounded-[40px] p-8 grid md:grid-cols-2 gap-10 items-center">
+        <div class="relative rounded-3xl overflow-hidden border-8 border-white shadow-lg aspect-[430/360]">
+          <div class="carousel-slide is-active"><img src="assets/img/esprit1.jpg" alt="" class="w-full h-full object-cover" /></div>
+          <div class="carousel-slide"><img src="assets/img/esprit2.jpg" alt="" class="w-full h-full object-cover" /></div>
+          <div class="carousel-slide"><img src="assets/img/esprit3.jpg" alt="" class="w-full h-full object-cover" /></div>
+        </div>
+        <div class="flex flex-col gap-6">
+          <div data-carousel-text>
+            <h3 data-i18n="maitrise.sub1" class="font-display font-medium text-gold text-lg uppercase tracking-wide mb-3"></h3>
+            <p data-i18n="maitrise.text1" class="text-ink-soft text-lg"></p>
+          </div>
+          <div data-carousel-text class="hidden">
+            <h3 data-i18n="maitrise.sub2" class="font-display font-medium text-gold text-lg uppercase tracking-wide mb-3"></h3>
+            <p data-i18n="maitrise.text2" class="text-ink-soft text-lg"></p>
+          </div>
+          <div data-carousel-text class="hidden">
+            <h3 data-i18n="maitrise.sub3" class="font-display font-medium text-gold text-lg uppercase tracking-wide mb-3"></h3>
+            <p data-i18n="maitrise.text3" class="text-ink-soft text-lg"></p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="carousel-dot is-active" aria-label="1"></button>
+            <button class="carousel-dot" aria-label="2"></button>
+            <button class="carousel-dot" aria-label="3"></button>
+          </div>
+        </div>
+        <div class="carousel-controls">
+          <button type="button" class="carousel-nav carousel-prev" aria-label="Précédent">
+            <img src="assets/icons/Buttonleft.png" alt="Précédent" />
+          </button>
+          <button type="button" class="carousel-nav carousel-next" aria-label="Suivant">
+            <img src="assets/icons/Buttonright.png" alt="Suivant" />
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Étapes (pop-up) -->
+    <section class="reveal flex flex-col items-center gap-10 px-6 py-16 max-w-6xl mx-auto">
+      <div class="flex items-center justify-center gap-4 w-full">
+        <span class="hidden sm:block flex-1 h-px bg-line max-w-[220px]"></span>
+        <h2 data-i18n="etapes.title" class="title-reveal font-display font-bold text-ink-softer text-xl sm:text-2xl md:text-3xl tracking-[0.12em] sm:tracking-[0.2em] uppercase text-center sm:whitespace-nowrap"></h2>
+        <span class="hidden sm:block flex-1 h-px bg-line max-w-[220px]"></span>
+      </div>
+      <div class="stagger grid sm:grid-cols-3 gap-6 w-full">
+        <div class="step-card flex flex-col gap-4" data-step-modal="achetez" role="button" tabindex="0">
+          <div class="rounded-[28px] overflow-hidden shadow-md aspect-video img-zoom-wrap bg-white flex items-center justify-center">
+            <img src="assets/mechanics/buy.png" alt="Achetez" class="step-img w-full h-full object-cover" />
+          </div>
+          <h3 data-i18n="etapes.achetez" class="step-label font-display font-bold text-ink-softer text-center tracking-[0.2em] uppercase"></h3>
+        </div>
+        <div class="step-card flex flex-col gap-4" data-step-modal="negociez" role="button" tabindex="0">
+          <div class="rounded-[28px] overflow-hidden shadow-md aspect-video img-zoom-wrap bg-white flex items-center justify-center">
+            <img src="assets/mechanics/negotiate.png" alt="Négociez" class="step-img w-full h-full object-cover" />
+          </div>
+          <h3 data-i18n="etapes.negociez" class="step-label font-display font-bold text-ink-softer text-center tracking-[0.2em] uppercase"></h3>
+        </div>
+        <div class="step-card flex flex-col gap-4" data-step-modal="dominez" role="button" tabindex="0">
+          <div class="rounded-[28px] overflow-hidden shadow-md aspect-video img-zoom-wrap bg-white flex items-center justify-center">
+            <img src="assets/mechanics/dominate.png" alt="Dominez" class="step-img w-full h-full object-cover" />
+          </div>
+          <h3 data-i18n="etapes.dominez" class="step-label font-display font-bold text-ink-softer text-center tracking-[0.2em] uppercase"></h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mécaniques : vidéo clients droite→gauche -->
+    <section class="reveal flex flex-col gap-8 px-6 py-14 max-w-6xl mx-auto">
+      <div class="flex items-center justify-center gap-4 w-full">
+        <span class="hidden sm:block flex-1 h-px bg-line max-w-[220px]"></span>
+        <h2 data-i18n="mecaniques.title" class="title-reveal font-display font-bold text-ink-softer text-xl sm:text-2xl md:text-3xl tracking-[0.12em] sm:tracking-[0.2em] uppercase text-center sm:whitespace-nowrap"></h2>
+        <span class="hidden sm:block flex-1 h-px bg-line max-w-[220px]"></span>
+      </div>
+      <div class="relative rounded-[40px] border-8 border-white shadow-xl overflow-hidden aspect-[21/9]" data-interactive-img>
+        <img src="assets/img/mecaniques.jpg" alt="Mécaniques" class="w-full h-full object-cover" />
+        <div class="mecaniques-gradient absolute inset-0 bg-gradient-to-t from-black/30 to-transparent pointer-events-none"></div>
+      </div>
+    </section>
+
+    <!-- Rythme (timeline) -->
+    <section class="reveal px-6 py-16 max-w-6xl mx-auto">
+      <div class="flex items-center justify-center gap-4 w-full mb-10">
+        <span class="hidden sm:block flex-1 h-px bg-line max-w-[220px]"></span>
+        <h2 data-i18n="rythme.title" class="title-reveal font-display font-bold text-ink-softer text-xl sm:text-2xl md:text-3xl tracking-[0.12em] sm:tracking-[0.2em] uppercase text-center sm:whitespace-nowrap"></h2>
+        <span class="hidden sm:block flex-1 h-px bg-line max-w-[220px]"></span>
+      </div>
+      <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
+        <div class="timeline-item flex flex-col gap-3">
+          <span class="font-display font-bold text-3xl text-ink-softer/30">01</span>
+          <h3 data-i18n="rythme.1.title" class="font-display font-bold text-ink-softer uppercase tracking-wide"></h3>
+          <p data-i18n="rythme.1.text" class="text-ink text-sm leading-relaxed"></p>
+        </div>
+        <div class="timeline-item flex flex-col gap-3">
+          <span class="font-display font-bold text-3xl text-ink-softer/30">02</span>
+          <h3 data-i18n="rythme.2.title" class="font-display font-bold text-ink-softer uppercase tracking-wide"></h3>
+          <p data-i18n="rythme.2.text" class="text-ink text-sm leading-relaxed"></p>
+        </div>
+        <div class="timeline-item flex flex-col gap-3">
+          <span class="font-display font-bold text-3xl text-ink-softer/30">03</span>
+          <h3 data-i18n="rythme.3.title" class="font-display font-bold text-ink-softer uppercase tracking-wide"></h3>
+          <p data-i18n="rythme.3.text" class="text-ink text-sm leading-relaxed"></p>
+        </div>
+        <div class="timeline-item flex flex-col gap-3">
+          <span class="font-display font-bold text-3xl text-ink-softer/30">04</span>
+          <h3 data-i18n="rythme.4.title" class="font-display font-bold text-ink-softer uppercase tracking-wide"></h3>
+          <p data-i18n="rythme.4.text" class="text-ink text-sm leading-relaxed"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Témoignages -->
+    <section class="reveal flex flex-col items-center gap-10 px-6 py-16 max-w-6xl mx-auto">
+      <div class="flex items-center justify-center gap-4 w-full">
+        <span class="hidden sm:block flex-1 h-px bg-line max-w-[220px]"></span>
+        <h2 data-i18n="temoins.title" class="title-reveal font-display font-bold text-ink-softer text-xl sm:text-2xl md:text-3xl tracking-[0.12em] sm:tracking-[0.2em] uppercase text-center sm:whitespace-nowrap"></h2>
+        <span class="hidden sm:block flex-1 h-px bg-line max-w-[220px]"></span>
+      </div>
+      <div class="stagger grid md:grid-cols-3 gap-6 w-full">
+        <div class="testi-card card-lift flex flex-col items-center gap-4 bg-gradient-to-b from-cream to-white border border-ink/80 rounded-[28px] p-8 text-center relative overflow-hidden">
+          <svg class="testi-quote" viewBox="0 0 32 24" aria-hidden="true"><path fill="currentColor" d="M9.6 0C4.3 2.7 0 8.1 0 14.4 0 19.7 3.4 24 8.6 24c4 0 6.9-3 6.9-6.9 0-3.6-2.6-6.3-6-6.3-.6 0-1.1.1-1.4.2C8.6 7.4 11 4 15 1.7L9.6 0Zm17 0c-5.3 2.7-9.6 8.1-9.6 14.4 0 5.3 3.4 9.6 8.6 9.6 4 0 6.9-3 6.9-6.9 0-3.6-2.6-6.3-6-6.3-.6 0-1.1.1-1.4.2 1.5-3.6 3.9-7 7.9-9.3L26.6 0Z"/></svg>
+          <div class="testi-avatar w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow"><img src="assets/img/avatar1.png" alt="" class="w-full h-full object-cover" /></div>
+          <p data-i18n="temoins.1.quote" class="font-mono text-ink text-sm leading-relaxed relative z-10"></p>
+          <div>
+            <p data-i18n="temoins.1.name" class="font-mono font-bold text-[#777] text-sm"></p>
+            <p data-i18n="temoins.1.role" class="font-mono text-[#777] text-[10px] tracking-widest uppercase"></p>
+          </div>
+        </div>
+        <div class="testi-card card-lift flex flex-col items-center gap-4 bg-gradient-to-b from-cream to-white border border-ink/80 rounded-[28px] p-8 text-center relative overflow-hidden">
+          <svg class="testi-quote" viewBox="0 0 32 24" aria-hidden="true"><path fill="currentColor" d="M9.6 0C4.3 2.7 0 8.1 0 14.4 0 19.7 3.4 24 8.6 24c4 0 6.9-3 6.9-6.9 0-3.6-2.6-6.3-6-6.3-.6 0-1.1.1-1.4.2C8.6 7.4 11 4 15 1.7L9.6 0Zm17 0c-5.3 2.7-9.6 8.1-9.6 14.4 0 5.3 3.4 9.6 8.6 9.6 4 0 6.9-3 6.9-6.9 0-3.6-2.6-6.3-6-6.3-.6 0-1.1.1-1.4.2 1.5-3.6 3.9-7 7.9-9.3L26.6 0Z"/></svg>
+          <div class="testi-avatar w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow"><img src="assets/img/avatar2.png" alt="" class="w-full h-full object-cover" /></div>
+          <p data-i18n="temoins.2.quote" class="font-mono text-ink text-sm leading-relaxed relative z-10"></p>
+          <div>
+            <p data-i18n="temoins.2.name" class="font-mono font-bold text-[#777] text-sm"></p>
+            <p data-i18n="temoins.2.role" class="font-mono text-[#777] text-[10px] tracking-widest uppercase"></p>
+          </div>
+        </div>
+        <div class="testi-card card-lift flex flex-col items-center gap-4 bg-gradient-to-b from-cream to-white border border-ink/80 rounded-[28px] p-8 text-center relative overflow-hidden">
+          <svg class="testi-quote" viewBox="0 0 32 24" aria-hidden="true"><path fill="currentColor" d="M9.6 0C4.3 2.7 0 8.1 0 14.4 0 19.7 3.4 24 8.6 24c4 0 6.9-3 6.9-6.9 0-3.6-2.6-6.3-6-6.3-.6 0-1.1.1-1.4.2C8.6 7.4 11 4 15 1.7L9.6 0Zm17 0c-5.3 2.7-9.6 8.1-9.6 14.4 0 5.3 3.4 9.6 8.6 9.6 4 0 6.9-3 6.9-6.9 0-3.6-2.6-6.3-6-6.3-.6 0-1.1.1-1.4.2 1.5-3.6 3.9-7 7.9-9.3L26.6 0Z"/></svg>
+          <div class="testi-avatar w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow"><img src="assets/img/avatar3.png" alt="" class="w-full h-full object-cover" /></div>
+          <p data-i18n="temoins.3.quote" class="font-mono text-ink text-sm leading-relaxed relative z-10"></p>
+          <div>
+            <p data-i18n="temoins.3.name" class="font-mono font-bold text-[#777] text-sm"></p>
+            <p data-i18n="temoins.3.role" class="font-mono text-[#777] text-[10px] tracking-widest uppercase"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="reveal flex justify-center px-6 pb-4">
+      <a href="#" id="join-social-btn" class="btn-primary join-social-btn inline-flex items-center gap-3">
+        <svg id="join-social-icon" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.5-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg>
+        <span id="join-social-label" data-i18n="join.fb"></span>
+      </a>
+    </div>
+
+    <div id="newsletter-root"></div>
+    <div id="community-root"></div>
+    <div id="marquee-root"></div>
+    <div id="footer-root"></div>
+    
+    <!-- Plateau Modal -->
+    <div id="plateau-modal" class="plateau-modal hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+      <div class="plateau-modal-content bg-white rounded-[24px] w-auto h-auto overflow-hidden relative shadow-2xl animate-plateau-in">
+        <button id="plateau-modal-close" class="absolute top-4 right-4 z-10 w-10 h-10 bg-ink rounded-full flex items-center justify-center hover:bg-ink/80 transition-colors">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+        <div class="board-wrap">
+          <img src="assets/img/plateau-hd.jpg" alt="Plateau de jeu" class="block" />
+
+          <!-- Case Tombola / Jackpot -->
+          <button type="button" class="board-spot tip-down" style="--x:5.1%;--y:6.2%">
+            <span class="spot-dot"></span>
+            <span class="spot-tip"><b data-i18n="board.tombola.title"></b><span data-i18n="board.tombola.text"></span></span>
+          </button>
+
+          <!-- Case Départ -->
+          <button type="button" class="board-spot tip-left" style="--x:96%;--y:96%">
+            <span class="spot-dot"></span>
+            <span class="spot-tip"><b data-i18n="board.depart.title"></b><span data-i18n="board.depart.text"></span></span>
+          </button>
+
+          <!-- Zone des cartes Environnement économique -->
+          <button type="button" class="board-spot spot-env" style="--x:45.3%;--y:73.5%">
+            <span class="spot-dot"></span>
+            <span class="spot-tip"><b data-i18n="board.env.title"></b><span data-i18n="board.env.text"></span></span>
+          </button>
+
+          <!-- Cases illuminées case par case : voie express (raccourci central) et voie longue (tour complet du plateau), positions calées précisément sur les cases -->
+          <svg class="board-routes" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <!-- Voie longue (tour complet) : Départ -> Intérêt Boursier (assurances) -> Vente aux Enchères -> Quick Food -> Phoenix Telecom -> Madrid -> Environnement Éco -> City Mall -> Intérêt Boursier (énergies) -> Manchester -> [colonne gauche] -> [rangée haute] -> [colonne droite] -> retour Départ. Chaque case reprend la couleur de sa catégorie. -->
+            <rect class="cell-glow cell-glow-longue" x="89.23" y="87.34" width="10.77" height="12.66" rx="1.2" style="animation-duration:11.2s;animation-delay:0.000s;fill:#16233f;stroke:#16233f;filter:drop-shadow(0 0 7px rgba(22,35,63,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="79.42" y="87.34" width="9.81" height="12.66" rx="1.2" style="animation-duration:11.2s;animation-delay:-0.350s;fill:#163a5c;stroke:#163a5c;filter:drop-shadow(0 0 7px rgba(22,58,92,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="69.62" y="87.34" width="9.81" height="12.66" rx="1.2" style="animation-duration:11.2s;animation-delay:-0.700s;fill:#8a1f2b;stroke:#8a1f2b;filter:drop-shadow(0 0 7px rgba(138,31,43,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="59.81" y="87.34" width="9.81" height="12.66" rx="1.2" style="animation-duration:11.2s;animation-delay:-1.050s;fill:#2f9e8e;stroke:#2f9e8e;filter:drop-shadow(0 0 7px rgba(47,158,142,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="50.00" y="87.34" width="9.81" height="12.66" rx="1.2" style="animation-duration:11.2s;animation-delay:-1.400s;fill:#7b4fc9;stroke:#7b4fc9;filter:drop-shadow(0 0 7px rgba(123,79,201,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="40.00" y="87.34" width="10.00" height="12.66" rx="1.2" style="animation-duration:11.2s;animation-delay:-1.750s;fill:#2f6fd6;stroke:#2f6fd6;filter:drop-shadow(0 0 7px rgba(47,111,214,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="30.38" y="87.34" width="9.62" height="12.66" rx="1.2" style="animation-duration:11.2s;animation-delay:-2.100s;fill:#f0c419;stroke:#f0c419;filter:drop-shadow(0 0 7px rgba(240,196,25,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="20.77" y="87.34" width="9.62" height="12.66" rx="1.2" style="animation-duration:11.2s;animation-delay:-2.450s;fill:#d6336c;stroke:#d6336c;filter:drop-shadow(0 0 7px rgba(214,51,108,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="11.15" y="87.34" width="9.62" height="12.66" rx="1.2" style="animation-duration:11.2s;animation-delay:-2.800s;fill:#163a5c;stroke:#163a5c;filter:drop-shadow(0 0 7px rgba(22,58,92,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="0.00" y="87.34" width="11.15" height="12.66" rx="1.2" style="animation-duration:11.2s;animation-delay:-3.150s;fill:#2f6fd6;stroke:#2f6fd6;filter:drop-shadow(0 0 7px rgba(47,111,214,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="0.00" y="74.86" width="11.15" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-3.500s;fill:#f0c419;stroke:#f0c419;filter:drop-shadow(0 0 7px rgba(240,196,25,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="0.00" y="62.38" width="11.15" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-3.850s;fill:#c0392b;stroke:#c0392b;filter:drop-shadow(0 0 7px rgba(192,57,43,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="0.00" y="49.91" width="11.15" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-4.200s;fill:#2f9e6e;stroke:#2f9e6e;filter:drop-shadow(0 0 7px rgba(47,158,110,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="0.00" y="37.43" width="11.15" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-4.550s;fill:#8a1f2b;stroke:#8a1f2b;filter:drop-shadow(0 0 7px rgba(138,31,43,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="0.00" y="24.95" width="11.15" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-4.900s;fill:#5b7fa6;stroke:#5b7fa6;filter:drop-shadow(0 0 7px rgba(91,127,166,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="0.00" y="12.48" width="11.15" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-5.250s;fill:#4fb3d9;stroke:#4fb3d9;filter:drop-shadow(0 0 7px rgba(79,179,217,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="0.00" y="0.00" width="11.15" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-5.600s;fill:#f2b134;stroke:#f2b134;filter:drop-shadow(0 0 7px rgba(242,177,52,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="11.15" y="0.00" width="9.62" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-5.950s;fill:#c0392b;stroke:#c0392b;filter:drop-shadow(0 0 7px rgba(192,57,43,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="20.77" y="0.00" width="9.62" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-6.300s;fill:#2f6fd6;stroke:#2f6fd6;filter:drop-shadow(0 0 7px rgba(47,111,214,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="30.38" y="0.00" width="9.62" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-6.650s;fill:#163a5c;stroke:#163a5c;filter:drop-shadow(0 0 7px rgba(22,58,92,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="40.00" y="0.00" width="10.00" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-7.000s;fill:#c0392b;stroke:#c0392b;filter:drop-shadow(0 0 7px rgba(192,57,43,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="50.00" y="0.00" width="9.81" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-7.350s;fill:#f0c419;stroke:#f0c419;filter:drop-shadow(0 0 7px rgba(240,196,25,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="59.81" y="0.00" width="9.81" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-7.700s;fill:#d6336c;stroke:#d6336c;filter:drop-shadow(0 0 7px rgba(214,51,108,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="69.62" y="0.00" width="9.81" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-8.050s;fill:#c0392b;stroke:#c0392b;filter:drop-shadow(0 0 7px rgba(192,57,43,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="79.42" y="0.00" width="9.81" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-8.400s;fill:#2f9e6e;stroke:#2f9e6e;filter:drop-shadow(0 0 7px rgba(47,158,110,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="89.23" y="0.00" width="10.77" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-8.750s;fill:#8a1f2b;stroke:#8a1f2b;filter:drop-shadow(0 0 7px rgba(138,31,43,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="89.23" y="12.48" width="10.77" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-9.100s;fill:#7b4fc9;stroke:#7b4fc9;filter:drop-shadow(0 0 7px rgba(123,79,201,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="89.23" y="24.95" width="10.77" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-9.450s;fill:#c0392b;stroke:#c0392b;filter:drop-shadow(0 0 7px rgba(192,57,43,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="89.23" y="37.43" width="10.77" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-9.800s;fill:#4fb3d9;stroke:#4fb3d9;filter:drop-shadow(0 0 7px rgba(79,179,217,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="89.23" y="49.91" width="10.77" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-10.150s;fill:#5b7fa6;stroke:#5b7fa6;filter:drop-shadow(0 0 7px rgba(91,127,166,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="89.23" y="62.38" width="10.77" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-10.500s;fill:#d6336c;stroke:#d6336c;filter:drop-shadow(0 0 7px rgba(214,51,108,0.9))"></rect>
+            <rect class="cell-glow cell-glow-longue" x="89.23" y="74.86" width="10.77" height="12.48" rx="1.2" style="animation-duration:11.2s;animation-delay:-10.850s;fill:#f0c419;stroke:#f0c419;filter:drop-shadow(0 0 7px rgba(240,196,25,0.9))"></rect>
+
+            <!-- Voie express (raccourci central), secteur INDUSTRIEL (pas énergies) : Intérêt Boursier -> Top Chic -> Vente aux Enchères -> Big Tech -> Super Price -> Redressement Fiscal -> Environnement Éco -> The Clinic -> Munich -> Ulysse Resort -> rejoint et termine le tour extérieur jusqu'à Départ -->
+            <rect class="cell-glow cell-glow-express" x="20.77" y="74.86" width="9.62" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:0.000s;fill:#163a5c;stroke:#163a5c;filter:drop-shadow(0 0 7px rgba(22,58,92,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="20.77" y="62.38" width="9.62" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-0.400s;fill:#2f9e6e;stroke:#2f9e6e;filter:drop-shadow(0 0 7px rgba(47,158,110,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="20.77" y="49.91" width="9.62" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-0.800s;fill:#8a1f2b;stroke:#8a1f2b;filter:drop-shadow(0 0 7px rgba(138,31,43,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="30.38" y="49.91" width="9.62" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-1.200s;fill:#c0392b;stroke:#c0392b;filter:drop-shadow(0 0 7px rgba(192,57,43,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="40.00" y="49.91" width="10.00" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-1.600s;fill:#c0392b;stroke:#c0392b;filter:drop-shadow(0 0 7px rgba(192,57,43,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="50.00" y="49.91" width="9.81" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-2.000s;fill:#6b7280;stroke:#6b7280;filter:drop-shadow(0 0 7px rgba(107,114,128,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="59.81" y="49.91" width="9.81" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-2.400s;fill:#f0c419;stroke:#f0c419;filter:drop-shadow(0 0 7px rgba(240,196,25,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="59.81" y="37.43" width="9.81" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-2.800s;fill:#2f9e6e;stroke:#2f9e6e;filter:drop-shadow(0 0 7px rgba(47,158,110,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="59.81" y="24.95" width="9.81" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-3.200s;fill:#2f6fd6;stroke:#2f6fd6;filter:drop-shadow(0 0 7px rgba(47,111,214,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="59.81" y="12.48" width="9.81" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-3.600s;fill:#4fb3d9;stroke:#4fb3d9;filter:drop-shadow(0 0 7px rgba(79,179,217,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="59.81" y="0.00" width="9.81" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-4.000s;fill:#f0c419;stroke:#f0c419;filter:drop-shadow(0 0 7px rgba(240,196,25,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="69.62" y="0.00" width="9.81" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-4.400s;fill:#c0392b;stroke:#c0392b;filter:drop-shadow(0 0 7px rgba(192,57,43,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="79.42" y="0.00" width="9.81" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-4.800s;fill:#2f9e6e;stroke:#2f9e6e;filter:drop-shadow(0 0 7px rgba(47,158,110,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="89.23" y="0.00" width="10.77" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-5.200s;fill:#8a1f2b;stroke:#8a1f2b;filter:drop-shadow(0 0 7px rgba(138,31,43,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="89.23" y="12.48" width="10.77" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-5.600s;fill:#7b4fc9;stroke:#7b4fc9;filter:drop-shadow(0 0 7px rgba(123,79,201,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="89.23" y="24.95" width="10.77" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-6.000s;fill:#c0392b;stroke:#c0392b;filter:drop-shadow(0 0 7px rgba(192,57,43,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="89.23" y="37.43" width="10.77" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-6.400s;fill:#4fb3d9;stroke:#4fb3d9;filter:drop-shadow(0 0 7px rgba(79,179,217,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="89.23" y="49.91" width="10.77" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-6.800s;fill:#5b7fa6;stroke:#5b7fa6;filter:drop-shadow(0 0 7px rgba(91,127,166,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="89.23" y="62.38" width="10.77" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-7.200s;fill:#d6336c;stroke:#d6336c;filter:drop-shadow(0 0 7px rgba(214,51,108,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="89.23" y="74.86" width="10.77" height="12.48" rx="1.2" style="animation-duration:8.4s;animation-delay:-7.600s;fill:#f0c419;stroke:#f0c419;filter:drop-shadow(0 0 7px rgba(240,196,25,0.9))"></rect>
+            <rect class="cell-glow cell-glow-express" x="89.23" y="87.34" width="10.77" height="12.66" rx="1.2" style="animation-duration:8.4s;animation-delay:-8.000s;fill:#16233f;stroke:#16233f;filter:drop-shadow(0 0 7px rgba(22,35,63,0.9))"></rect>
+          </svg>
+          <!-- Balayage lumineux qui traverse tout le plateau rapidement, comme un reflet de lumière -->
+          <div class="board-light-sweep" aria-hidden="true"></div>
+
+          <!-- Flèche Voie express -->
+          <button type="button" class="board-spot board-arrow arrow-express" style="--x:31.6%;--y:79%">
+            <span class="arrow-glyph">↑</span>
+            <span class="spot-tip"><b data-i18n="board.express.title"></b><span data-i18n="board.express.text"></span></span>
+          </button>
+
+          <!-- Flèche Voie longue -->
+          <button type="button" class="board-spot board-arrow arrow-longue" style="--x:14.8%;--y:83.2%">
+            <span class="arrow-glyph">←</span>
+            <span class="spot-tip"><b data-i18n="board.longue.title"></b><span data-i18n="board.longue.text"></span></span>
+          </button>
+
+          <!-- Les 5 cases Environnement économique du plateau -->
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/enhancements.js"></script>
+<script>
+// Modal management
+function initModal() {
+  const trigger = document.getElementById('plateau-preview-trigger');
+  const modal = document.getElementById('plateau-modal');
+  const closeBtn = document.getElementById('plateau-modal-close');
+  const boardWrap = modal ? modal.querySelector('.board-wrap') : null;
+  const arrowExpress = modal ? modal.querySelector('.arrow-express') : null;
+  const arrowLongue = modal ? modal.querySelector('.arrow-longue') : null;
+
+  function playRoute(cls) {
+    if (!boardWrap) return;
+    boardWrap.classList.remove(cls);
+    void boardWrap.offsetWidth; // force reflow to restart animation
+    boardWrap.classList.add(cls);
+    setTimeout(() => boardWrap.classList.remove(cls), 3200);
+  }
+  if (arrowExpress) arrowExpress.addEventListener('click', () => playRoute('playing-express'));
+  if (arrowLongue) arrowLongue.addEventListener('click', () => playRoute('playing-longue'));
+
+  if (!trigger || !modal) return;
+  
+  // Open modal on trigger click
+  trigger.addEventListener('click', () => {
+    modal.classList.remove('hidden');
+  });
+  
+  // Close modal on close button click
+  closeBtn.addEventListener('click', () => {
+    modal.classList.add('hidden');
+  });
+  
+  // Close modal on backdrop click (outside the modal content)
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.add('hidden');
+    }
+  });
+}
+
+// Force pieces marquee initialization after DOM is ready
+window.addEventListener('load', () => {
+  initModal();
+  initMobileMenu();
+  setTimeout(() => {
+    const root = document.getElementById('pieces-scroll');
+    const track = root?.querySelector('.pieces-track');
+    
+    if (track && !track.classList.contains('animated')) {
+      console.log('FORCING pieces marquee init...');
+      
+      // Verify and clone items if needed
+      const originalItems = Array.from(track.querySelectorAll('.piece-card:not(:nth-child(n+7))'));
+      if (originalItems.length > 0 && track.children.length < 12) {
+        originalItems.forEach((item) => {
+          const clone = item.cloneNode(true);
+          track.appendChild(clone);
+        });
+      }
+      
+      // Force add animated class
+      track.classList.add('animated');
+      console.log('✓ Applied animated class, items:', track.children.length);
+    } else if (track?.classList.contains('animated')) {
+      console.log('✓ Pieces marquee already initialized, items:', track.children.length);
+    }
+  }, 500);
+});
+</script>
+</body>
+</html>

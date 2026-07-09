@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Business is Business — Règles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Inter:ital,wght@0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@400;700&family=Qahiri&family=Archivo+Black&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          cream: { DEFAULT: '#f6f1e0', light: '#fffcef', header: '#ece6d4', card: '#f7f5ec' },
+          ink: { DEFAULT: '#251f31', soft: '#49454c', softer: '#3b3447', dark: '#393939' },
+          gold: { DEFAULT: '#725c00', muted: '#a8944f' },
+          moss: '#446900',
+          brand: { blue: '#153f9a', blueDark: '#1d1f80', skyFrom: '#6e90ff', skyTo: '#1d3584' },
+          lime: { DEFAULT: '#b2f74c', border: '#486f00' },
+          line: { DEFAULT: '#cac4cc', soft: '#e7e2d2', warm: '#d5cfbc' },
+        },
+        fontFamily: {
+          display: ['Quicksand', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+          mono: ['"Space Grotesk"', 'sans-serif'],
+          script: ['Qahiri', 'sans-serif'],
+          heavy: ['"Archivo Black"', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-white">
+
+<div id="sidebar-root"></div>
+
+<div class="lg:ml-[228px] flex flex-col min-h-screen">
+  <div id="header-root"></div>
+
+  <main class="flex-1">
+
+    <section class="reveal px-6 pt-16 pb-10 max-w-4xl mx-auto text-center">
+      <h1 data-i18n="regles.title" class="title-reveal font-display font-bold text-ink text-4xl md:text-5xl tracking-tight uppercase"></h1>
+      <p data-i18n="regles.intro" class="text-ink-soft/70 mt-4"></p>
+    </section>
+
+    <div id="regles-list" class="flex flex-col gap-20 px-6 py-10 max-w-5xl mx-auto w-full"></div>
+
+    <div class="reveal flex justify-center px-6 pb-4">
+      <a href="#" class="btn-primary inline-flex items-center gap-3">
+        <svg viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.5 1.5-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg>
+        <span data-i18n="join.fb"></span>
+      </a>
+    </div>
+
+    <div id="newsletter-root"></div>
+    <div id="community-root"></div>
+    <div id="marquee-root"></div>
+    <div id="footer-root"></div>
+  </main>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/shared.js"></script>
+<script src="js/enhancements.js"></script>
+<script>
+  // Images assignées à chaque règle (illustrations riches)
+  const REGLE_IMAGES = [
+    'assets/rules/1.png',
+    'assets/rules/2.png',
+    'assets/rules/3.png',
+    'assets/rules/4.png',
+    'assets/rules/5.png',
+    'assets/rules/6.png',
+    'assets/rules/7.png',
+    'assets/rules/8.png',
+    'assets/rules/9.png',
+  ];
+
+  function openRuleModal(index) {
+    const title = t(`regles.${index}.title`);
+    const text = t(`regles.${index}.text`);
+    const note = t(`regles.${index}.note`);
+    let backdrop = document.getElementById('bib-rule-modal');
+
+    if (!backdrop) {
+      backdrop = document.createElement('div');
+      backdrop.id = 'bib-rule-modal';
+      backdrop.className = 'modal-backdrop';
+      backdrop.innerHTML = `
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="bib-rule-title" aria-describedby="bib-rule-text">
+          <div class="flex items-start justify-between gap-4 mb-6">
+            <div>
+              <span data-modal-number class="block text-xs tracking-[0.3em] uppercase text-ink-soft/80 mb-2"></span>
+              <h3 id="bib-rule-title" data-modal-title class="font-display font-bold text-ink text-3xl uppercase tracking-tight leading-tight"></h3>
+            </div>
+            <button type="button" data-modal-close class="modal-close text-ink text-3xl leading-none font-bold">×</button>
+          </div>
+          <p id="bib-rule-text" data-modal-text class="text-ink-soft leading-relaxed text-base"></p>
+          <p data-modal-note class="mt-6 italic text-ink-soft text-sm"></p>
+        </div>`;
+      document.body.appendChild(backdrop);
+
+      backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop || e.target.closest('[data-modal-close]')) closeRuleModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeRuleModal();
+      });
+    }
+
+    backdrop.querySelector('[data-modal-number]').textContent = `${t('regles.modal')} ${String(index).padStart(2, '0')}`;
+    backdrop.querySelector('[data-modal-title]').textContent = title;
+    backdrop.querySelector('[data-modal-text]').textContent = text;
+    const noteEl = backdrop.querySelector('[data-modal-note]');
+    if (note) {
+      noteEl.textContent = note;
+      noteEl.classList.remove('hidden');
+    } else {
+      noteEl.textContent = '';
+      noteEl.classList.add('hidden');
+    }
+
+    requestAnimationFrame(() => backdrop.classList.add('is-open'));
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeRuleModal() {
+    const backdrop = document.getElementById('bib-rule-modal');
+    if (backdrop) {
+      backdrop.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function buildRegles() {
+    const list = document.getElementById('regles-list');
+    if (!list) return;
+    list.innerHTML = '';
+
+    for (let i = 1; i <= 9; i++) {
+      const n = String(i).padStart(2, '0');
+      const reversed = i % 2 === 0;
+      const note = t(`regles.${i}.note`);
+      const art = document.createElement('article');
+      art.className = 'reveal relative';
+      art.innerHTML = `
+        <button type="button" data-regle-id="${i}" class="relative backdrop-blur bg-cream/50 border border-[#919191]/60 rounded-[40px] p-8 md:p-12 flex flex-col ${reversed ? 'md:flex-row-reverse' : 'md:flex-row'} gap-10 items-center card-lift cursor-pointer text-left focus:outline-none focus:ring-4 focus:ring-gold/20">
+          <span class="absolute -top-8 left-0 font-heavy text-[#a8944f]/20 text-[80px] md:text-[120px] leading-none select-none pointer-events-none regle-number" aria-hidden="true">${n}</span>
+          <div class="flex-1 flex flex-col gap-4">
+            <span class="font-body font-bold text-[#5eaee9] text-xs tracking-[0.3em] uppercase">${n}</span>
+            <h2 class="font-display font-bold text-ink-soft text-2xl md:text-3xl uppercase">${t(`regles.${i}.title`)}</h2>
+            <p class="text-ink-soft/60">${t(`regles.${i}.text`)}</p>
+            ${note ? `<p class="italic text-ink-soft text-sm">${note}</p>` : ''}
+          </div>
+          <div class="w-full md:w-[320px] aspect-[367/300] rounded-[32px] overflow-hidden shrink-0 img-zoom-wrap shadow-md">
+            <img src="${REGLE_IMAGES[i - 1]}" alt="${t(`regles.${i}.title`)}" class="img-zoom w-full h-full object-cover" />
+          </div>
+        </button>`;
+      list.appendChild(art);
+    }
+
+    list.querySelectorAll('[data-regle-id]').forEach((card) => {
+      card.addEventListener('click', () => openRuleModal(card.getAttribute('data-regle-id')));
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      });
+    });
+
+    if (window.__reobserveReveal) window.__reobserveReveal();
+  }
+
+  buildRegles();
+  document.addEventListener('langchange', buildRegles);
+</script>
+</body>
+</html>
